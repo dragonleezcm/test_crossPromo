@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "_default": {
+            "link": "crossdev"
+        },         
+        "crossdev": {
+            "applicationId": "fJ14g90MmJEhMPiGpq5YqGWEBCfA2stBBCgxN1s7",
+            "masterKey": "SeAjvPiR6N7wR1xreVFj6xeGrfFAE64AhdJCS3YA"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.9"
+    }
+}

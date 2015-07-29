@@ -1,0 +1,52 @@
+<form action="" method="post" role="form">
+  <div class="more_little_height_bottom" style="width:693px;"><h4 class="inline">App Information</h4>  <button id="submit" class="btn btn-primary"  style="float:right;">Submit</button></div>
+    <div class="form-group">
+        <label for="app-name">Name of App</label>
+      <div><input type="input" class="form-control inline"  maxlength="100" name="application[name]" id="app-name" placeholder="Enter app name"><font class="red_inline"> * </font></div>
+    </div>
+    <div class="form-group">
+        <label for="app-name">App Store ID</label>
+        <input type="input" class="form-control"  maxlength="100" name="application[storeIdentifier]" id="app-store-id" placeholder="App Store ID">
+    </div>
+    <div class="form-group">
+        <label for="app-name">Description</label>
+        <input type="input"  class="form-control"  maxlength="300" name="application[description]" id="description"   placeholder="Description"></input>
+    </div>
+
+
+   <!-- hidden companyId -->
+     <div><input type="text" id="hideCompanyId" value="" readonly/> </div>
+   <div><input type="hidden" id="appid" readonly value="null"/> </div>
+
+    <div class="form-group more_height_top">
+        <h5>Include the following ads in this app:</h5>
+        <div class="checkbox">
+            <label>
+                <input class="check" id="select-all" type="checkbox"> <span class="black_font">Select All</span>
+            </label>
+        </div>
+        <% for(var i=0; i< promotions.length; i++){ %>
+        <div class="checkbox">
+            <label>
+              <input class="check" name="promotions[]" value="<%= promotions[i].id %>" type="checkbox"><span class="black_font"> <%= promotions[i].get('title') %></span>
+            </label>
+        </div>
+        <% } %>
+    </div>
+    <div class="form-group more_height_top">
+        <h5>Include the following more fun app in this app:</h5>
+           <div class="checkbox">
+            <label>
+                <input class="mfCheck" id="select-all-mfa" type="checkbox">  <span class="black_font">Select All</span>
+            </label>
+        </div>
+        <% for(var i=0; i< morefunapps.length; i++){ %>
+        <div class="checkbox">
+            <label>
+               <input class="mfCheck" name="morefunapps[]" value="<%= morefunapps[i].id %>" type="checkbox"> <span class="black_font"> <%= morefunapps[i].get('name') %></span>
+            </label>
+        </div>
+        <% } %>
+    </div>
+
+</form>

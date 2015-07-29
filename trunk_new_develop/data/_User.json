@@ -1,0 +1,14 @@
+{ "results": [
+{
+  "role": {
+    "__type": "Pointer",
+    "className": "_Role",
+    "objectId": "CwXkdXoGfh"
+  },
+  "active": true, 
+  "firstname": "",
+  "lastname": "",  
+  "username": "toylabapps@ideo.com", 
+  "objectId": "Gdk5eRXO0p" 
+}
+] }

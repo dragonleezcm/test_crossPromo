@@ -1,0 +1,53 @@
+<form action="" method="post" role="form">
+    <div class="form-group">
+        <label for="user-name">User's Email</label>
+        <input type="input" class="form-control promotion-data" name="username" id="user-name"  readonly="readonly" value="<%= user.get('username') %>">
+    </div>                  
+    <div class="form-group">
+        <label>Role</label>                   
+        <select name='role'>     
+            <%                              
+            if(isOwn && (role.get('type') == 'administrator' || role.get('type') == 'normal_user')){
+            %>
+                <option value = "<%=role.id%>"><%=role.get('name')%></option>
+            <%
+            }else{
+            if(roles!=null){
+            for(var i=0; i< roles.length; i++){    
+            if(roles[i].get('type') != 'administrator'){ 
+            %>
+            <option value = "<%=roles[i].id%>" <%if(roles[i].id==role.id){%>selected<%}%>><%=roles[i].get('name')%></option>    
+            <% 
+            } 
+            }
+            } 
+            }%>                                               
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="first-name">First Name</label>  
+        <%if(!user.get('firstname')){%>   
+            <input type="input" class="form-control promotion-data" name="firstname" id="first-name" value="">                           
+        <%}else{%>
+            <input type="input" class="form-control promotion-data" name="firstname" id="first-name" value="<%=user.get('firstname')%>">  
+        <%}%>                        
+    </div>  
+    <div class="form-group">
+        <label for="last-name">Last Name</label>
+        <%if(!user.get('lastname')){%>
+            <input type="input" class="form-control promotion-data" name="lastname" id="last-name" value="">
+        <%}else{%>
+             <input type="input" class="form-control promotion-data" name="lastname" id="last-name" value="<%= user.get('lastname') %>">
+        <%}%>
+    </div>                       
+  <input type="hidden" class="form-control promotion-data" id="companyId" value="<%=companyId%>">
+    <input type="hidden" id="isOwn" value='<%=isOwn%>'>  
+    <button id="submit" type="submit" class="btn btn-default">Save</button>
+    <% if(!isOwn){
+        if(user.get('active')){ %> 
+            <button id="activate" class="btn btn-primary">Deactivate</button>
+        <% }else{ %>
+            <button id="activate" class="btn btn-primary">Activate</button>
+        <% }
+    } %>
+</form>

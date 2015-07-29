@@ -1,0 +1,126 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>CrossPromo System</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link rel="stylesheet" href="/styles/43364958.main.css">
+        <script src="/scripts/vendor/f7f27360.modernizr.js"></script>
+        <% include ../templates/header.ejs %>   
+        <% include ../templates/img_load_component.ejs %>           
+    </head>
+    <body>
+        <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="container">
+             <!-- added the navigation menu -->
+             <% include ../templates/nav.ejs %>
+              <div class="content row big_form_width" >
+                <div class="big_form_layout">
+                    <% include form_edit.ejs %>
+                </div>
+            </div>
+        </div>
+        <% include ../templates/footer.ejs %>       
+        <script>
+        $(function(){
+             <% if(mfApplication.get('ioas') == "false"){ %> 
+                $('.asl').hide();
+                $('.linkArea').show();
+                 
+             <% } else{
+             %>
+             $('.asl').show();
+             $('.linkArea').hide();
+             <%}%>
+
+    <% if(mfApplication.get('appSectionType')=="MWOF"){ %>
+        $('#bannerImageSection').hide();
+    <%}%>
+
+
+             $('.ioas').click(function(e) {
+                if ($('.ioas').prop('checked')) {
+                    $('.linkArea').hide();
+                    $('.asl').show();
+                } else {
+                    $('.linkArea').show();
+                    $('.asl').hide();
+                    $('.asl').find('input').val('');
+                }
+            });
+
+            $('.appSectionType').click(function(e) {
+                if ($(this).val()=="IDEOko") {
+                    $('#bannerImageSection').show();
+                } else { 
+                    $('#bannerImageSection').hide();
+                }
+            });
+              
+            CrossPromoUtils.showOriginalImage();
+            CrossPromoUtils.scaleOriginalImage('imageFile');
+ 
+            var query = new Parse.Query(MorefunApp);
+            query.get("<%= mfApplication.id %>", {
+                success: function(currentmfApp){
+                    $('#activate').click(function(e){
+                        e.preventDefault();
+                        currentmfApp.set('active', !currentmfApp.get('active'));
+                        currentmfApp.save(null, {
+                            success: function(o) {
+                                if(o.get('active')){
+                                    alert("More Fun Application Activated");
+                                }
+                                else {
+                                    alert("More Fun Application Deactivated");
+                                }
+                                //go back to list page
+                                 window.location = "/morefunapps_cmpy/"+companyid;
+                                //go back to edit page
+                                //window.location = "/morefunapps/"+companyid+"/"+o.id;
+                            },
+                            error: function(o, error) {
+                                console.log(error);
+                            }
+                        });
+                    });
+                    $('#online').click(function(e){
+                        e.preventDefault();
+                        currentmfApp.set('isOnline', !currentmfApp.get('isOnline'));
+                        currentmfApp.save(null, {
+                            success: function(o) {
+                                if(o.get('isOnline')){
+                                    alert("More Fun Application is Online now.");
+                                }
+                                else {
+                                    alert("More Fun Application is Offline to Preview now");
+                                }
+                                //go back to list page
+                               // window.location = "/morefunapps_cmpy/"+companyid;
+                                //go back to edit page
+                                window.location = "/morefunapps/"+companyid+"/"+o.id;
+                            },
+                            error: function(o, error) {
+                                console.log(error);
+                            }
+                        });
+                    });
+                    $('#submit').click(MoreFunAppUtils.saveMoreFunAppHandler(currentmfApp));
+                },
+                error: function(obj,error){
+                    console.log(error);
+                    window.location = "/applications_cmpy/"+companyid;
+                }
+            });         
+       });
+    </script>
+</body>
+</html>

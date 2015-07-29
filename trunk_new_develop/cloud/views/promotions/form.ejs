@@ -1,0 +1,175 @@
+<form action="create" method="post" role="form">
+    <div class="clean_style">
+        <div id="left_split" class="add_edit_split_no_margin">
+            <div class="more_little_height_both">
+                <h4 class="inline ">Ad Information</h4>
+            </div>
+            <div class="form-group">
+                <label for="app-name">Name of Ad</label>
+                <div>
+                    <input type="input" class="form-control split_input inline" maxlength="100" name="promotion[title]" id="ad-name" placeholder="Enter Ad name"><font class="red_inline"> * </font>
+                </div>
+            </div>
+            <input type="hidden" id="token" value="add" readonly /> <input type="hidden" id="orgMediaType" value="image" readonly />
+            <div>
+                <input type="text" id="hideCompanyId" value="" readonly />
+            </div>
+            <div class="form-group">
+                <h5>Include in the following apps:</h5>
+                <div class="checkbox">
+                    <label> <input class="check" id="select-all" type="checkbox"> <span class="black_font">Select All</span>
+                    </label>
+                </div>
+                <% for(var i=0; i< applications.length; i++){ %>
+                <div class="checkbox">
+                    <label> <input class="check" name="applications[]" value="<%= applications[i].id %>" type="checkbox"> <span class="black_font"><%= applications[i].get('name') %></span>
+                    </label>
+                </div>
+                <% } %>
+ 
+            </div>
+            <h5 class="margin_bwt_parts_vertical">Dates Live</h5>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="form-group">
+                    <div>
+                        <label class="inline" for="start-date">Start Date</label><font class="red_inline"> * </font>
+                    </div>
+                    <input id="start-date" name="promotion[startDate]" type="text" class="form-control date_input" onclick="new Calendar().show(this);" readonly>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="form-group">
+                    <div>
+                        <label class="inline" for="end-date">End Date</label><font class="red_inline"> * </font>
+                    </div>
+                    <input id="end-date" name="promotion[endDate]" type="text" class="form-control date_input" onclick="new Calendar().show(this);" readonly>
+                </div>
+            </div>
+            <br> <br> <br>
+            <h4 class="margin_bwt_parts_vertical">Link Information</h4>
+            <div class="form-group">
+                <label for="outlink">Outlink</label> <input type="text" name="promotion[outlink]" maxlength="200" class="form-control split_input" id="outlink" placeholder="Outlink"><br> <label for="outlinkHD">Outlink
+                    HD</label> <input type="text" name="promotion[outlinkHD]" maxlength="200" class="form-control split_input" id="outlinkHD"  placeholder="Outlink HD"><br> <label for="link-type">Type of link:</label> <br>
+                <div class="inline float_left" style="margin-right: 140px;">
+                    <input class="promotion-data" name="promotion[linkType]" value="Apple App Store" type="radio"> Apple App Store<br> <input class="promotion-data" name="promotion[linkType]"
+                        value="TV (iTunes)" type="radio"> TV (iTunes)<br> <input class="promotion-data" name="promotion[linkType]" value="Music (iTunes)" type="radio"> Music (iTunes)<br> <input
+                        class="promotion-data" name="promotion[linkType]" value="Books (iTunes)" type="radio"> Books (iTunes)<br>
+                </div>
+                <div class="inline">
+                    <input class="promotion-data" name="promotion[linkType]" value="Podcast (iTunes)" type="radio"> Podcast (iTunes)<br> <input class="promotion-data" name="promotion[linkType]"
+                        value="Google Play Store" type="radio"> Google Play Store<br> <input class="promotion-data" name="promotion[linkType]" value="Web" type="radio"> Web<br> <input
+                        class="promotion-data" name="promotion[linkType]" value="None" type="radio" checked> None
+                </div>
+                <br> <br>
+ 
+            </div>
+ 
+            <!-- Featured Area -->
+ 
+            <div class="form-inline margin_bwt_parts_vertical">
+                <h4 class="inline margin_bwt_parts_vertical margin_right_little">Featured Information</h4>
+                Featured? <input class="featured" name="promotion[featured]" value="true" type="radio"> Yes <input class="featured" name="promotion[featured]" value="false" type="radio" checked> No
+                <br> <br>
+            </div>
+            <div class="featureArea" style="display: none;">
+    <div>If featured, the app will appear on the Parent's Section lock and</div>
+                 will be prioritized in the rotation.
+                <h5 class="more_little_height_both">Dates Live</h5>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="start-date">Start Date</label> <input name="promotion[featureStartDate]" id="feature-start-date" type="text" class="form-control promotion-data date_input"
+                            onclick="new Calendar().show(this);" readonly>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="end-date">End Date</label> <input id="feature-end-date" name="promotion[featureEndDate]" type="text" class="form-control promotion-data date_input" onclick="new Calendar().show(this);"
+                            readonly>
+                    </div>
+                </div>
+                <div class="form-group more_height">
+                    <h5>Featured Button Image</h5>
+                    <div class="inline float_left">
+                        <label for="feature-image">iPhone 4(180x68) </label> <input type="file" class="featuredImage file_width" name="iPhoneFeatureImage" id="iphone-feature-image">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="180x68"></div>
+                    </div>
+                    <div class="inline float_right">
+                        <label for="feature-image">iPhone 5 (200x75) </label> <input type="file" class="featuredImage file_width" name="iPadFeatureImage" id="ipad-feature-image">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="200x75"></div>
+                    </div>
+                    <br>  
+                    <div class="clean_style   more_padding_top">
+                        <label for="feature-image">iPad Retina (300x112) </label> <input type="file" class="featuredImage file_width" name="iPadRetinaFeatureImage" id="ipad-retina-feature-image">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="300x112"></div>
+                    </div>
+                </div>
+            </div>
+ 
+        </div>
+        <div class="vertical_line_add_edit"></div>
+        <!-- right part -->
+        <div class="add_edit_split">
+            <!-- Image/Video part -->
+            <div class="more_little_height_both">
+                <h4 class="inline">Images/Videos</h4>
+                <font class="red_inline margin_right_little"> * </font> Media Type <input class="mediaClass" name="promotion[mediaType]" value="image" type="radio" checked> Image <input class="mediaClass"
+                    name="promotion[mediaType]" value="video" type="radio"> Video <br> <br>
+            </div>
+            <div class="form-group"></div>
+ 
+            <h5>iPhone 3.5 inch screen</h5>
+            <hr>
+            <div class="form-group">
+ 
+                <div class="inline float_left">
+                    <label for="iphone-portrait-h">Portrait (640 x 386)</label> <input type="file" class="recommandFile file_width" name="iPhonePortraitH" id="iphone-portrait-h">
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="640 x 386"></div>
+                </div>
+                <div class="inline float_right">
+                    <label for="iphone-landscape-h">Landscape (580 x 640)</label> <input type="file" class="recommandFile file_width" name="iPhoneLandscapeH" id="iphone-landscape-h">
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="580 x 640"></div>
+                </div>
+            </div>
+ 
+            <h5 class="clean_style more_padding_top">iPhone 4 inch screen</h5>
+            <hr>
+            <div class="form-group">
+                <div class="inline float_left">
+                    <label for="iphone-portrait-w-h">Portrait (640 x 532)</label> <input type="file" class="recommandFile file_width" name="iPhonePortraitWH" id="iphone-portrait-w-h">
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="640 x 532"></div>
+                </div>
+                <div class="inline float_right">
+                    <label for="iphone-landscape-w-h">Landscape (736 x 640)</label> <input type="file" class="recommandFile file_width" name="iPhoneLandscapeWH" id="iphone-landscape-w-h">
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="736 x 640"></div>
+                </div>
+            </div>
+ 
+            <h5 class="clean_style more_padding_top">iPad Retina</h5>
+            <hr>
+            <div class="form-group">
+                <div class="inline float_left">
+                    <label for="ipad-portrait-h">Portrait (1536 x 960)</label> <input type="file" class="recommandFile file_width" name="iPadPortraitH" id="ipad-portrait-h">
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="1536 x 960"></div>
+                </div>
+                <div class="inline float_right">
+                    <label for="ipad-landscape-h">Landscape (1234 x 1536)</label> <input type="file" class="recommandFile file_width" name="iPadLandscapeH" id="ipad-landscape-h">
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="1234 x 1536"></div>
+                </div>
+            </div>
+        </div>
+ 
+    </div>
+ 
+ 
+    <div class="clean_style more_height"></div>
+    <button id="submit" type="submit" class="btn btn-primary save_margin_middle">Submit</button>
+</form>

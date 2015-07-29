@@ -1,0 +1,26 @@
+<script src="/scripts/vendor/load-image.min.js"></script>
+<script>
+$(function(){
+$('input[type=file]').each(function(){
+    $(this).change(function(e){  
+    var currentObj = $(this);
+    var loadingImage = loadImage(
+        e.target.files[0],
+        function (img) {
+            var content;
+            if (!(img.src || img instanceof HTMLCanvasElement)) {
+                content = $('<span>Loading image file failed</span>');
+            } else {
+                var widthheight= $(currentObj).next().attr("widthheight");
+                $(img).attr("class","clickable_image").attr("widthheight",widthheight);
+                content = $('<a target="_blank">').append(img).attr('href', img.src || img.toDataURL());  
+                $(currentObj).next().html(content);                           
+                CrossPromoUtils.imageScaleHeight($(currentObj).next(),img);
+            }
+        },
+        {maxWidth: 600}
+    );          
+    });
+});
+});
+</script>

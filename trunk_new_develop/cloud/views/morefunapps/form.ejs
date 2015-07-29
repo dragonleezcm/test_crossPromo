@@ -1,0 +1,126 @@
+<form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data" data-ng-app="demo" data-ng-controller="DemoFileUploadController" data-file-upload="options"
+    data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
+    <div class="clean_style">
+        <div id="left_split" class="add_edit_split_no_margin" style="margin-bottom:-450px;padding-bottom:450px">
+            <div class="more_little_height_both">
+                <h4 class="inline ">More Fun App Information</h4>
+            </div>
+             
+            <h4  class="margin_bwt_parts_vertical">Platform</h4>
+            <div class="more_height_top">
+                <input name="mfApplication[platForm]" value="iphone" type="radio" checked > iPhone <input  name="mfApplication[platForm]" value="ipad" type="radio" > iPad <input
+                     name="mfApplication[platForm]" value="universal" type="radio"> Universal
+            </div>
+ 
+ 
+            <input type="hidden" id="token" value="add" readonly />
+            <div>
+                <input type="text" id="hideCompanyId" value="" readonly />
+            </div>
+            <br>
+            <div class="form-group">
+                <h5>Include in the following apps:</h5>
+                <div class="checkbox">
+                    <label> <input class="check" id="select-all" type="checkbox"> <span class="black_font">Select All</span>
+                    </label>
+                </div>
+                <% for(var i=0; i< applications.length; i++){ %>
+                <div class="checkbox">
+                    <label> <input class="check" name="applications[]" value="<%= applications[i].id %>" type="checkbox"><span class="black_font"> <%= applications[i].get('name') %></span>
+                    </label>
+                </div>
+                <% } %>
+            </div>
+ 
+        </div>
+        <div class="vertical_line_add_edit"></div>
+        <!-- right part -->
+        <div class="add_edit_split">
+        <div class="more_little_height_both">
+                <h4 class="inline ">Choose Another Language:</h4> <select><option>English (default)</option>
+                <option>Chinese (default)</option>
+                <option>Chinese (default)</option>
+                 <span style="font-weight:20;bold;margin-left:10px;">Actived</span>
+                <option>Fench (default)</option><option>Jappan (default)</option>
+                <option>German (default)</option>
+                 
+                 
+                </select>
+                 
+    <ul class="nav nav-pills">         
+     <li class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mydropdonw<b class="caret"></b></a>
+         <ul id="menu1" class="dropdown-menu">
+            <span style="font-weight:20;bold;margin-left:10px;">Actived</span>
+            <li><a href="#">action</a></li>
+            <li><a href="#">aaa</a></li>
+            <li><a href="#">bbbb</a></li>
+            <span style="font-weight:20;bold;margin-left:10px;">Deactived</span>
+            <li><a href="#">ddddd</a></li>
+         </ul>
+     </li>
+     </ul>
+            </div>
+            <div class="form-group">
+                <label for="app-name">Name of App to include under More fun apps</label>
+                <div>
+                    <input type="input" class="form-control inline split_input" name="mfApplication[name]" id="mfapp-name" placeholder="Enter app name"><font class="red_inline"> * </font>
+                </div>
+            </div>
+            <div class="form-group">
+                <h5 class="inline " style="margin:30px 10px 0 0;">Is in App Store?</h5>  <input class="ioas" name="mfApplication[ioas]" value="true" type="radio" checked> Yes <input class="ioas" name="mfApplication[ioas]" value="false" type="radio"> No
+            </div>
+            <div class="asl">
+                <label for="app-name">App Store Link</label> <input type="input" class="form-control" name="mfApplication[appStoreLink]" id="app-store-link" placeholder="App Store link">
+            </div>
+            <div class="linkArea" style="display:none;">
+                <label for="outlink">Outlink</label> <input type="input" class="form-control split_input" name="mfApplication[outlink]" id="outlink" placeholder="Outlink">
+            </div>
+         
+            <br>  
+           <!-- Image/Video part -->
+            <div class="form-group">
+                <h4 class="inline">Images/Videos</h4>
+                <font class="red_inline margin_right_little"> * </font> Media Type <input class="mediaClass" name="mfApplication[mediaType]" value="image" type="radio" checked> Image <input class="mediaClass"
+                    name="mfApplication[mediaType]" value="video" type="radio"> Video<h4>(if not pulling icon / video from App Store)</h4>   
+                 <div class="form-group">
+                    <label for="shortcut">Size: (768 x 768)</label> <input type="file" class="recommandFile  file_width" name="shortcut" id="shortcut">
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="768 x 768"></div>
+                </div>
+            </div>
+        
+            
+   
+         <br>  
+            <!-- app Section part -->
+            <div class="form-group">
+                <h4>App Section</h4>
+                <div class="form-group">
+                    <input class="appSectionType" name="mfApplication[appSectionType]" value="IDEOko" type="radio" checked> IDEOko <input class="appSectionType lt_mg_left"
+                    name="mfApplication[appSectionType]" value="MWOF" type="radio"> Made with our Friends<br>
+                </div>
+            <br>
+                 <div id="bannerImageSection" class="form-group">
+                        <h4>Banner Image</h4>
+                        <label for="bannerImage">Size: (1334 x 750)</label> <input type="file" class="recommandFile  file_width" name="bannerImage" id="bannerImage">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="1334 x 750"></div>
+                </div>
+ 
+            </div>
+          <br>  
+
+          <div class="form-group">
+                <h4>Flags</h4>
+                 <input class="mfFlag" name="mfApplication[mfFlag]" value="NEW" type="radio" checked> New <input class="mfFlag lt_mg_left"  name="mfApplication[mfFlag]" value="SALE" type="radio"> Sale<input class="mfFlag lt_mg_left"  name="mfApplication[mfFlag]" value="NONE" type="radio"> No Flag
+                 
+        </div>
+
+            
+
+        </div>
+    </div>
+    <div class="clean_style more_height"></div>
+    <button id="submit" class="btn btn-primary save_margin_middle">Submit</button>
+</form>

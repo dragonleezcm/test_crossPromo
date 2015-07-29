@@ -1,0 +1,146 @@
+<form action="" method="post" role="form">
+    <div class="more_little_height_bottom gray_bk_color" style="width: 1024px; height: 35px;">
+        <% if(mfApplication.get('active')){ %>
+        <span class="activeLabel">This app is currently active in the More Fun Apps page of Parent's Section</span>
+        <button id="activate" class="btn btn-default" style="float: right; background-color: red; color: white;">Deactivate this App</button>
+        <% }else{ %>
+        <span class="activeLabel">This app is currently inactive in the More Fun Apps page of Parent's Section</span>
+        <button id="activate" class="btn btn-default" style="float: right; background-color: green; color: white;">Activate this App</button>
+        <% } %>
+    </div>
+    <div class="clean_style">
+        <div id="left_split" class="add_edit_split_no_margin" style="margin-bottom:-350px;padding-bottom:350px">
+            <div class="more_little_height_both">
+                <h4 class="inline ">More Fun App Information</h4>
+            </div>
+            <div class="form-group">
+                <label for="app-name">Name of App to include under More fun apps</label>
+                <div>
+                    <input type="input" class="form-control inline split_input" name="mfApplication[name]" id="mfapp-name" value="<%= mfApplication.get('name') %>"><font class="red_inline"> * </font>
+                </div>
+            </div>
+            <div class="form-group">
+                <h5 class="inline "  style="margin:30px 10px 0 0;">Is in App Store?</h5>  <input class="ioas" name="mfApplication[ioas]" value="true" <% if(mfApplication.get('ioas') == "true"){ %> checked <% } %> type="radio"> Yes <input class="ioas"
+                    name="mfApplication[ioas]" value="false" type="radio" <% if(mfApplication.get('ioas') == "false"){ %> checked <% } %>> No
+            </div>
+            <div class="asl">
+                <label for="app-link">App Store Link</label> <input type="input" class="form-control" name="mfApplication[appStoreLink]" id="app-store-link" value="<%= mfApplication.get('appStoreLink') %>">
+            </div>
+            <div class="linkArea">
+                <label for="outlink">Outlink</label> <input type="input" class="form-control split_input" name="mfApplication[outlink]" id="outlink" value="<%= mfApplication.get('outlink') %>">
+            </div>
+             
+            <h4 class="margin_bwt_parts_vertical">Platform</h4>
+            <div>
+                <input name="mfApplication[platForm]" value="iphone" type="radio"  <% if(mfApplication.get('platForm') == "iphone"){ %> checked <% } %> > iPhone 
+                <input  name="mfApplication[platForm]" value="ipad" type="radio"  <% if(mfApplication.get('platForm') == "ipad"){ %> checked <% } %>> iPad <input
+                     name="mfApplication[platForm]" value="universal" type="radio"  <% if(mfApplication.get('platForm') == "universal"){ %> checked <% } %>> Universal
+            </div>
+             
+             
+            <input type="hidden" id="token" value="edit" readonly />
+            <div>
+                <input type="text" id="hideCompanyId" value="" readonly />
+            </div>
+            <br>
+            <div class="form-group">
+                <h5>Include in the following apps:</h5>
+                <div class="checkbox">
+                    <label> <input class="check" id="select-all" type="checkbox"> <span class="black_font">Select All</span>
+                    </label>
+                </div>
+                <% for(var i=0; i< applications.length; i++){ %>
+                <div class="checkbox">
+                    <label> <input class="check" name="applications[]" value="<%= applications[i].id %>" type="checkbox" <% if(apps.indexOf(applications[i].id) != -1){ %> checked <%}%>> <span class="black_font"><%= applications[i].get('name') %></span>
+                    </label>
+                </div>
+                <% } %>
+            </div>
+ 
+        </div>
+        <div class="vertical_line_add_edit"></div>
+        <!-- right part -->
+        <div class="add_edit_split">
+            <!-- Image/Video part -->
+            <div class="more_little_height_both">
+                <h4 class="inline">Images/Videos</h4>
+                    <font class="red_inline"> * </font> Media Type <input class="mediaClass" name="mfApplication[mediaType]" value="image" type="radio" <% if(mfApplication.get('mediaType') == "image"){ %> checked
+                        <% } %>> Image <input class="mediaClass" name="mfApplication[mediaType]" value="video" type="radio" <% if(mfApplication.get('mediaType') == "video"){ %> checked <% } %>> Video<h4>(if not pulling icon / video from App Store)</h4> <br> 
+                  <input type="hidden" id="orgMediaType" value="<%=mfApplication.get('mediaType') %>" readonly /> 
+            </div>
+
+
+            <div class="form-group">
+                <label for="iphone-portrait">Size: (768 x 768)</label>
+                <input type="file" class="recommandFile file_width" name="shortcut" id="shortcut">
+                    
+                  <% if(mfApplication.get('mediaType') == "video"){ %>              
+                        <div class="imageFile" widthheight="768 x 768">
+                            <% if(mfApplication.get("shortcut")){ %>
+                            <video controls class='media-video' widthheight="640 x 386" src="<%= mfApplication.get("shortcut").url()%>"></video> 
+                            <% } %>
+                        </div>  
+ 
+                  <%} else {%>
+                        <div class="imageFile" widthheight="768 x 768">
+                            <% if(mfApplication.get("shortcut")){ %>
+                            <img class="clickable_image" src="<%= mfApplication.get("shortcut").url()%>" />
+                            <% } %>
+                        </div>
+
+                  <%}%>
+
+            </div> 
+
+
+
+
+
+         <br>  
+            <!-- app Section part -->
+            <div class="form-group">
+                <h4>App Section</h4>
+                <div class="form-group">
+                    <input class="appSectionType" name="mfApplication[appSectionType]" value="IDEOko" type="radio" <% if(mfApplication.get('appSectionType') == "IDEOko"){ %> checked
+                        <% } %>> IDEOko <input class="appSectionType lt_mg_left"
+                    name="mfApplication[appSectionType]" value="MWOF" <% if(mfApplication.get('appSectionType') == "MWOF"){ %> checked
+                        <% } %> type="radio"> Made with our Friends<br>
+                </div>
+            <br>
+                 <div id="bannerImageSection" class="form-group">
+                        <h4>Banner Image</h4>
+                        <label for="bannerImage">Size: (1334 x 750)</label> <input type="file" class="recommandFile  file_width" name="bannerImage" id="bannerImage">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <% if(mfApplication.get("shortcut")){ %>
+                            <img class="clickable_image" src="<%= mfApplication.get("bannerImage").url()%>" />
+                        <% } %>
+                </div>
+ 
+            </div>
+         <br>  
+
+          <div class="form-group">
+                <h4>Flags</h4>
+                 <input class="mfFlag" name="mfApplication[mfFlag]" value="NEW" type="radio" <% if(mfApplication.get('mfFlag') == "NEW"){ %> checked
+                        <% } %>> New <input class="mfFlag lt_mg_left"  name="mfApplication[mfFlag]" value="SALE" type="radio" <% if(mfApplication.get('mfFlag') == "SALE"){ %> checked
+                        <% } %>> Sale<input class="mfFlag lt_mg_left"  name="mfApplication[mfFlag]" value="NONE" type="radio" <% if(mfApplication.get('mfFlag') == "NONE"){ %> checked
+                        <% } %>> No Flag
+                 
+         </div>
+
+
+
+
+
+
+        </div>
+ 
+    </div>
+    <div class="clean_style more_height"></div>
+    <button id="submit" class="btn btn-default edit_margin_middle">Save Changes</button>
+        <% if(mfApplication.get('isOnline')){ %>
+        <button id="online" class="btn btn-primary">Preview</button>
+        <% }else{ %>
+        <button id="online" class="btn btn-primary">Send to Live App</button>
+        <% } %>
+</form>

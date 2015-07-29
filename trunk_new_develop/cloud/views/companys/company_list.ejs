@@ -1,0 +1,74 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>CrossPromo System</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width">
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<link rel="stylesheet" href="/styles/43364958.main.css">
+<script src="/scripts/vendor/f7f27360.modernizr.js"></script>
+<% include ../templates/header.ejs %>
+<script>
+    $.cookie('cookie_companyname', null);
+    $.cookie('cookie_companyid', null);
+    $(function() {
+        $('#myNav').hide();
+        var i = CrossPromoUtils.changeOddBgColor('.active_bak_color');
+        var j = CrossPromoUtils.changeOddBgColor('.inactive_bak_color');
+        CrossPromoUtils.autoVerticalLineHeight(i, j);
+    });
+</script>
+</head>
+<body>
+    <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div class="container" style="display: none">
+        <!-- added the navigation menu -->
+        <% include ../templates/nav.ejs %>
+        <div class="content row">
+            <!-- <h3 class="choose_notice">Please Select One Company</h3> -->
+            <div class="common_form_layout">
+                <div class="col-lg-6 more_height" style="width: 730px;">
+                    <h3 class="inline" style="color: red; margin-bottom: 10px;">Please Select One Company</h3>
+                    <a type="button" href="/companys/new" class="btn btn-primary" style="float: right;">Create New Company</a>
+                </div>
+                <div class="clean_style">
+                    <div class="list_split_no_margin">
+                        <h4 class="more_little_height_bottom">Active</h4>
+                        <% for(var i = 0; i < companys.length; i++){ 
+                        if(companys[i].get('active')){ %>
+                        <div class="active_bak_color split_link">
+                            <a href="/applications_cmpy/<%= companys[i].id %>"><%= companys[i].get('companyName') %></a> <span style="float: right;">[<a href="/companys/modify/<%= companys[i].id %>">Edit</a>]
+                            </span>
+                        </div>
+                        <% }
+                    } %>
+                    </div>
+                    <div class="vertical_line"></div>
+                    <div class="list_split">
+                        <h4 class="more_little_height_bottom">Inactive</h4>
+                        <% for(var i = 0; i < companys.length; i++){ 
+                        if(!companys[i].get('active')){ %>
+                        <div class="inactive_bak_color split_link">
+                            <a href="/applications_cmpy/<%= companys[i].id %>"><%= companys[i].get('companyName') %></a><span style="float: right;">[<a href="/companys/modify/<%= companys[i].id %>">Edit</a>]
+                            </span>
+                        </div>
+                        <% }
+                    } %>
+                        <br> <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../templates/footer.ejs %>
+</body>
+</html>

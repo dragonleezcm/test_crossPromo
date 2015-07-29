@@ -1,0 +1,273 @@
+<form action="" method="post" role="form">
+    <div class="clean_style">
+        <div id="left_split" class="add_edit_split_no_margin">
+ 
+ 
+            <h4 class="more_little_height_bottom">In-App Purchase Information</h4>
+            <div class="form-group">
+                <label for="app-name">Name of In-App Purchase</label>
+                <div>
+                    <input type="input" class="form-control inline split_input" maxlength="100" name="purchaseitem[name]" maxlength="100" id="purchase-item-name" placeholder="Enter In-App Purchase Name"><font
+                        class="red_inline"> * </font>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="app-name">Product ID</label>
+                <div>
+                    <input type="input" class="form-control inline split_input" maxlength="100" name="purchaseitem[productId]" id="purchase-item-productId" placeholder="ID"><font class="red_inline"> * </font>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="app-name">Price</label>
+                <!-- onkeyup="this.value=this.value.replace(/[^\d\.]+?/g,'')"  -->
+                <div>
+                    <input type="input" class="form-control inline split_input" style="width: 397px; margin-right: 10px;" maxlength="15" onkeyup="this.value=this.value.replace(/[^\d\.]+?/g,'')"
+                        name="purchaseitem[price]" id="purchase-item-price" placeholder="Price"> <select type="input" onchange="CrossPromoUtils.changePriceSymbol($(this).val());" style="height: 20px;"
+                        class="inline" name="purchaseitem[priceType]">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="CNY">CNY</option>
+                        <option value="JPY">JPY</option>
+                        <option value="INR">INR</option>
+                        <option value="KRW">KRW</option>
+                        <option value="CAD">CAD</option>
+                        <option value="HKD">HKD</option>
+                        <option value="THB">THB</option>
+ 
+                    </select> <span class="inline" style="margin-left: 8px;" id="priceSymbol">$</span> <font class="red_inline"> * </font>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="app-name">Open Notification Name </label>
+                <div>
+                    <input type="input" class="form-control inline split_input" maxlength="100" name="purchaseitem[openNotificationName]" id="purchase-item-openNotificationName" placeholder="Open Notification Name"><font
+                        class="red_inline"> * </font>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="app-name">Description </label> <input type="input" class="form-control split_input" maxlength="200" name="purchaseitem[description]" id="purchase-item-description"
+                    placeholder="Description">
+            </div>
+            <div class="form-group">
+                <label for="app-name">Tag <span style="color:#ff4348;">(please use , between tags eg: tag1,tag2,tag3)</span></label> <input type="input" class="form-control split_input" maxlength="200" name="purchaseitem[tag]" id="purchase-item-tag"
+                     placeholder="Tag">
+            </div>
+            <h5 class="margin_bwt_parts_vertical">Dates Live</h5>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="form-group">
+                    <label for="start-date">Start Date</label>
+                    <div>
+                        <input id="start-date" name="purchaseitem[startDate]" type="text" class="form-control date_input inline" onclick="new Calendar().show(this);" readonly><font class="red_inline"> * </font>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="form-group">
+                    <label for="end-date">End Date</label>
+                    <div>
+                        <input id="end-date" name="purchaseitem[endDate]" type="text" class="form-control date_input inline" onclick="new Calendar().show(this);" readonly><font class="red_inline"> * </font>
+                    </div>
+                </div>
+            </div>
+            <!-- hidden companyId TODO replace companyID with session-->
+            <input type="hidden" id="token" value="add" readonly /> <input type="hidden" id="orgMediaType" value="image" readonly /> <input type="hidden" id="orgShowInAdMeidaTypeMediaType" value="" readonly />
+            <input type="hidden" id="checkAdImageOrNot" value="yes" readonly /> <input type="hidden" id="onlyCheckMediaType" value="no" readonly />
+            <div>
+                <input type="text" id="hideCompanyId" value="" readonly />
+            </div>
+            <div>
+                <input type="hidden" class="hide_appId" name=hide_appId id="hide_appId" value="<%=appId%>" />
+            </div>
+ 
+            <div class="clean_style"></div>
+            <div class="form-group margin_bwt_parts_vertical">
+                <h4 class="inline more_little_height_both margin_right_little">Show IAP AD in Ad Rotation</h4>
+                ShowInAdpage? <input class="showInAdPage" name="purchaseitem[isShowInAdPage]" value="true" type="radio"> Yes <input class="showInAdPage" name="purchaseitem[isShowInAdPage]" value="false"
+                    checked type="radio"> No
+            </div>
+            <div class="showInAdPageArea">
+                <div>
+                    <h4 class="inline">Images/Videos</h4>
+                    <font class="red_inline"> * </font> Media Type <input class="showInAdMeidaClass" name="purchaseitem[showInAdMeidaType]" value="image" type="radio" checked> Image <input
+                        class="showInAdMeidaClass" name="purchaseitem[showInAdMeidaType]" value="video" type="radio">Video <br> <br>
+                </div>
+                <h5>iPhone 3.5 inch screen</h5>
+                <hr>
+                <div class="form-group">
+                    <div class="inline float_left">
+                        <label for="iphone-portrait-h-ad">Portrait (640 x 386)</label> <input type="file" class="recommandAdImage file_width" name="iPhonePortraitHAd" id="iphone-portrait-h-ad">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="640 x 386"></div>
+                    </div>
+                    <div class="inline float_right">
+                        <label for="iphone-landscape-h-ad">Landscape (580 x 640)</label> <input type="file" class="recommandAdImage file_width" name="iPhoneLandscapeHAd" id="iphone-landscape-h-ad">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="580 x 640"></div>
+                    </div>
+                </div>
+                <h5 class="clean_style more_padding_top">iPhone 4 inch screen</h5>
+                <hr>
+                <div class="form-group">
+                    <div class="inline float_left">
+                        <label for="iphone-portrait-w-h-ad">Portrait (640 x 532)</label> <input type="file" class="recommandAdImage file_width" name="iPhonePortraitWHAd" id="iphone-portrait-w-h-ad">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="640 x 532 "></div>
+                    </div>
+                </div>
+                <div class="inline float_right">
+                    <label for="iphone-landscape-w-h-ad">Landscape (736 x 640)</label> <input type="file" class="recommandAdImage file_width" name="iPhoneLandscapeWHAd" id="iphone-landscape-w-h-ad">
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="736 x 640"></div>
+                </div>
+ 
+ 
+                <h5 class="clean_style more_padding_top">iPad Retina</h5>
+                <hr>
+                <div class="form-group">
+                    <div class="inline float_left">
+                        <label for="ipad-portrait-h-ad">Portrait (1536 x 960)</label> <input type="file" class="recommandAdImage file_width" name="iPadPortraitHAd" id="ipad-portrait-h-ad">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="1536 x 960"></div>
+                    </div>
+                </div>
+                <div class="inline float_right">
+                    <label for="ipad-landscape-h-ad">Landscape (1234 x 1536)</label> <input type="file" class="recommandAdImage file_width" name="iPadLandscapeHAd" id="ipad-landscape-h-ad">
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="1234 x 1536"></div>
+                </div>
+ 
+ 
+ 
+ 
+ 
+            <div class="clean_style"></div>
+            <div class="form-inline margin_bwt_parts_vertical_big">
+                <h4 class="inline more_little_height_both margin_right_little">Featured Information</h4>
+                Featured? <input class="featured" name="purchaseitem[featured]" value="true" type="radio"> Yes <input class="featured" name="purchaseitem[featured]" value="false" type="radio" checked>
+                No <br> <br>
+            </div>
+            <div class="featureArea">
+                <div>If featured, the app will appear on the Parent's Section lock and</div>
+                 will be prioritized in the rotation.
+                <h5  class="more_height_top">Dates Live</h5>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label for="start-date">Start Date</label> <input name="purchaseitem[featureStartDate]" id="feature-start-date" type="text" class="form-control promotion-data date_input"
+                            onclick="new Calendar().show(this);" readonly>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 ">
+                    <div class="form-group">
+                        <label for="end-date">End Date</label> <input id="feature-end-date" name="purchaseitem[featureEndDate]" type="text" class="form-control promotion-data date_input"
+                            onclick="new Calendar().show(this);" readonly>
+                    </div>
+                </div>
+                    <div class="clean_style"></div>
+                <div class="form-group more_height_top">
+                    <h5 class="more_height_top">Featured Button Image</h5>
+                    <div class="inline float_left">
+                        <label for="feature-image">iPhone 4 (180x68) </label> <input type="file" class="featuredImage file_width" name="iPhoneFeatureImage" id="iphone-feature-image">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="180x68"></div>
+                    </div>
+                    <div class="inline float_right">
+                        <label for="feature-image">iPhone 5 (200x75) </label> <input type="file" class="featuredImage file_width" name="iPadFeatureImage" id="ipad-feature-image">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="200x75"></div>
+                    </div>
+                    <br>
+                    <div class="clean_style   more_padding_top">
+                        <label for="feature-image">iPad Retina (300x112) </label> <input type="file" class="featuredImage file_width" name="iPadRetinaFeatureImage" id="ipad-retina-feature-image">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="300x112"></div>
+                    </div>
+                </div>
+            </div>
+ 
+            </div>
+            <!-- End of ShowinAd -->
+ 
+ 
+        </div>
+        <div class="vertical_line_add_edit"></div>
+        <!-- Start of right part -->
+        <div class="add_edit_split">
+            <div class="media more_little_height_bottom">
+                <div>
+                    <h4 class="inline">In-App Purchase Images/Videos</h4>
+                    <font class="red_inline"> * </font>Media Type <input class="mediaClass" name="purchaseitem[mediaType]" value="image" type="radio" checked> Image <input class="mediaClass"
+                        name="purchaseitem[mediaType]" value="video" type="radio"> Video <br> <br>
+                </div>
+ 
+                <h5>iPhone 3.5 inch screen</h5>
+                <hr>
+                <div class="form-group more_height">
+                    <div class="inline float_left">
+                        <label for="iphone-portrait-h">Portrait (640 x 435)</label> <input type="file" class="recommandFile file_width" name="iPhonePortraitH" id="iphone-portrait-h">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="640 x 435"></div>
+                    </div>
+                    <div class="inline float_left">
+                        <label for="iphone-landscape-h">Landscape (480 x 550)</label> <input type="file" class="recommandFile file_width" name="iPhoneLandscapeH" id="iphone-landscape-h">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="480 x 550"></div>
+                    </div>
+                </div>
+                <br> <br> <br> <br> <br>
+                <h5 class="clean_style more_padding_top">iPhone 4 inch screen</h5>
+                <hr>
+                <div class="form-group more_height">
+                    <div class="inline float_left">
+                        <label for="iphone-portrait-w-h">Portrait (640 x 523)</label> <input type="file" class="recommandFile file_width" name="iPhonePortraitWH" id="iphone-portrait-w-h">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="640 x 523"></div>
+                    </div>
+                    <div class="inline float_right">
+                        <label for="iphone-landscape-w-h">Landscape (568 x 550)</label> <input type="file" class="recommandFile file_width" name="iPhoneLandscapeWH" id="iphone-landscape-w-h">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="568 x 550"></div>
+                    </div>
+                </div>
+ 
+                <br> <br> <br> <br> <br>
+                <h5 class="clean_style more_padding_top">iPad Retina</h5>
+                <hr>
+                <div class="form-group more_height">
+                    <div class="inline float_left">
+                        <label for="ipad-portrait-h">Portrait (1536 x 944)</label> <input type="file" class="recommandFile file_width" name="iPadPortraitH" id="ipad-portrait-h">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="1536 x 944"></div>
+                    </div>
+                    <div class="inline float_right">
+                        <label for="ipad-landscape-h">Landscape (1024 x 1376)</label> <input type="file" class="recommandFile file_width" name="iPadLandscapeH" id="ipad-landscape-h">
+                        <!-- this is a div to show the preview image - do not delete it -->
+                        <div class="imageFile" widthheight="1024 x 1376"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="more_little_height_bottom">
+                <a id="addAttachment">Add attachment</a>
+                <div id="attachmentList" class="more_height_top">  </div>
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+    <div class="clean_style more_height"></div>
+    <button id="submit" class="btn btn-primary save_margin_middle" >Submit</button>
+</form>

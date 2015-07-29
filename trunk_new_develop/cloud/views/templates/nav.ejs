@@ -1,0 +1,258 @@
+<div id="navBody">
+    <div class="header">
+        <div style="display: inline; width: 200px;">
+            <h3 class="text-muted" style="display: inline; width: 200px;">
+                <a id="indexLink" href="/companys">CrossPromo</a><span style="width: 100px; overflow: hidden;" id="cpy" alt="xxsdasdfasdfasdfxxx"> </span>
+            </h3>
+        </div>
+        <div id="userMenu" style="display: inline; position: absolute; right: 10px; float: left; width: 250px; z-index: 998; font-size: 15pt">
+            <ul>
+                <li onmouseover="displaySubMenu(this)" onmouseout="hideSubMenu(this)"><a style="width: 250px; display-list-type: none;" href="#" id="userProfile"></a>
+                    <ul>
+                        <li id="company_profile_nav" style="display: none"><a href="#" id="company_profile">Company Profile</a></li>
+                        <li id="changePwd"><a href="/users/change_pwd">Change Password</a></li>
+                        <li><a href="/users/logout">Logout</a></li>
+                    </ul></li>
+            </ul>
+        </div>
+    </div>
+    <div style="clear: both"></div>
+    <div id="myNav">
+        <ul id="navigation">
+            <li id="applicationNav" style="display: none"><a id="appNavHref" href="#">Apps</a>
+                <ul>
+                </ul></li>
+            <li id="adsNav" style="display: none"><a id="adsNavHref" href="#">Ads</a>
+                <ul>
+                </ul></li>
+            <li id="morefunappNav" style="display: none"><a id="morefunappNavHref" href="#">More Fun Apps</a></li>
+            <li id="companyNav" style="display: none"><a id="companyNavHref" href="/companys">Companies</a></li>
+            <li id="userNav" style="display: none"><a id="userNavHref" href="#">Users</a></li>
+        </ul>
+    </div>
+</div>
+<script>
+    var companyid;
+    var companyname;
+    $('.container').hide();
+    var currentUser = Parse.User.current();
+    var reqPath = '<%=reqPath%>';   
+    var adminPermissionFilter = ["/users/change_pwd","/companys/change_profile/*"];
+    var companyAdminPermissionFilter = ["/companys$","/companys/new","/companys/modify/*"];
+    var userPermissionFilter = ["/companys$","/companys/new","/companys/modify/*","/companys/change_profile/*","/company_users/*","/users/new/*","/users/modify/*"];
+    var companyId = '<%=companyId%>';
+    var permissionError = "Your operation is illegal that you don't have any permission to visit the url, please re-login!";
+     
+     
+     
+    var curr_url = window.location.href; 
+    if(curr_url.indexOf('morefunapps')>=0){
+        changeSelectedBackGround('#morefunappNavHref');
+    }else if(curr_url.indexOf('application')>=0||curr_url.indexOf('purchaseitems')>=0){
+        changeSelectedBackGround('#appNavHref');
+    }else if(curr_url.indexOf('promotions')>=0){
+        changeSelectedBackGround('#adsNavHref');
+    }
+    else if(curr_url.indexOf('companys')>=0){
+        changeSelectedBackGround('#companyNavHref');
+    } 
+    else if(curr_url.indexOf('users')>=0){
+        changeSelectedBackGround('#userNavHref');
+    }
+    function changeSelectedBackGround(item){
+         $(item).css({"background-color":"#2687eb"});
+         $(item).css({"color":"#fff"});
+    }
+     
+    $(function(){
+        //clear undefined values
+        $('input').each(function(){
+                if ($(this).val() == 'undefined') {
+                    $(this).val("");
+                }
+        });
+ 
+        if (!currentUser) {
+            alert('Please login!');
+            window.location = "/";
+            return;
+        } else {            
+            $("#userProfile").attr('href',
+                    '/users/change_profile/' + currentUser.id);
+            $("#userProfile").html(blockLongContent(currentUser.getUsername()));
+ 
+        }
+        var queryRole = new Parse.Query(Parse.Role);
+        queryRole.get(currentUser.get('role').id, {
+            success : function(role) {
+                 
+                function urlFilter(filterItems){
+                    for(var i=0;i<filterItems.length;i++){
+                        var regexp = new RegExp(filterItems[i]);
+                        if(regexp.test(reqPath)){
+                            Parse.User.logOut();                            
+                            alert(permissionError); 
+                            window.location = "/";                  
+                            return false;
+                        }
+                    }
+                    return true;                
+                }
+                function isAllowedToModify(){
+                    if(companyId != ''){
+                        if(currentUser.get('company').id != companyId){
+                            Parse.User.logOut();                            
+                            alert(permissionError); 
+                            window.location = "/";                  
+                            return false;
+                        }                       
+                    }
+                    return true;
+                }
+                function isChangedOwnProfile(){
+                    var regexp = new RegExp('/users/change_profile/*');
+                    if(regexp.test(reqPath)){
+                        var userId = '<%=userId%>';
+                        if (userId != '' && currentUser.id != userId) {
+                            Parse.User.logOut();
+                            alert(permissionError);
+                            window.location = "/";
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+ 
+                if (role.get('type') == 'administrator') {
+                    setAdminCompanyCookie();
+                    $("#userNavHref").attr("href", "/company_users/" + companyid);
+ 
+                    //verify permission
+                    if (urlFilter(adminPermissionFilter))
+                        $('.container').show();
+                } else if (role.get('type') == 'company_administrator') {
+                    showCmpyAdminMenu();
+                    setCompanyCookie();
+                    $("#userNavHref").attr("href", "/company_users/" + companyid);
+                    $("#company_profile").attr('href', '/companys/change_profile/' + companyid);
+                    $("#indexLink").attr('href', '/applications_cmpy/' + companyid);
+ 
+                    //verify permission
+                    if (urlFilter(companyAdminPermissionFilter) && isAllowedToModify())
+                        $('.container').show();
+                } else {
+                    showNormalUserMenu();
+                    setCompanyCookie();
+                    //normal user
+                    $("#indexLink").attr('href', '/applications_cmpy/' + companyid);
+ 
+                    //verify permission                 
+                    if (urlFilter(userPermissionFilter) && isAllowedToModify() && isChangedOwnProfile()) {
+                        $('.container').show();
+                    }
+                }
+                $("#appNavHref").attr("href", "/applications_cmpy/" + companyid);
+                $("#adsNavHref").attr("href", "/promotions_cmpy/" + companyid);
+                $("#morefunappNavHref").attr("href", "/morefunapps_cmpy/" + companyid);
+            },
+            error : function(obj, error) {
+                console.error("Error: " + error.code + " " + error.message);
+            }
+        });
+    });
+ 
+    function showAdminMenu() {
+        $("#applicationNav").show();
+        $("#adsNav").show();
+        $("#morefunappNav").show();
+        $("#companyNav").show();
+        $("#userNav").show();
+        $("#changePwd").hide();
+    }
+    function showCmpyAdminMenu() {
+        $("#applicationNav").show();
+        $("#adsNav").show();
+        $("#morefunappNav").show();
+        $("#userNav").show();
+        $("#company_profile_nav").show();
+    }
+    function showNormalUserMenu() {
+        $("#applicationNav").show();
+        $("#adsNav").show();
+        $("#morefunappNav").show();
+    }
+    function setAdminCompanyCookie() {
+        //make the admin menus
+        showAdminMenu();
+        //Get the company id from the Cookie(When the login user 's role is Administrator he is not belongs to one certain company)
+        //cookie is setted when administrator choose one certain company
+        companyid = $.cookie('cookie_companyid');
+        companyname = $.cookie('cookie_companyname');
+        if (companyid != "null") {
+            $('#hideCompanyId').val(companyid);
+            if (companyname != "null")
+ 
+                $('#cpy').html("  -  [" + blockLongContent(companyname) + "]");
+            $('#cpy').attr("alt", companyname);
+        } else {
+            $("#applicationNav").hide();
+            $("#adsNav").hide();
+            $("#morefunappNav").hide();
+            $("#userNav").hide();
+        }
+    }
+    //only check the company info when role is company_admin or normal user
+    function setCompanyCookie() {
+        //Get the company id from the User info(When the login user 's role is company_administrator)
+        var company = new Company();
+        company = currentUser.get('company');
+        if (company != null) {
+            //set companyid to cookie
+            companyid = company.id;
+            if ($.cookie('cookie_companyid') == "null")
+                $.cookie('cookie_companyid', companyid, {
+                    path : '/'
+                });
+            $('#hideCompanyId').val(companyid);
+ 
+            companyname = $.cookie('cookie_companyname');
+            if (companyname != "null")
+                $('#cpy').html("  -  [" + blockLongContent(companyname) + "]");
+ 
+            //first enter page,query companyname for certain company
+            if ($.cookie('cookie_companyname') == "null") {
+                var companyQuery = new Parse.Query(Company);
+                companyQuery.get(companyid, {
+                    success : function(obj) {
+                        companyname = obj.get('companyName');
+                        if (companyname != "null") {
+                            $('#cpy').html("[" + blockLongContent(companyname) + "]");
+                            //Set cooke 'companyName'
+                            $.cookie('cookie_companyname', companyname, {
+                                path : '/'
+                            });
+                        }
+                    },
+                    error : function(obj, error) {
+                        console.error("Error: " + error.code + " " + error.message);
+                    }
+                });
+            } else {
+                $('#cpy').html("[" + blockLongContent($.cookie('cookie_companyname')) + "]");
+            }
+ 
+        }
+    }
+    function blockLongContent(content) {
+        var maxlen = 10;
+        if(content==undefined){
+            alert('Please login!');
+            window.location = "/";
+            return '';
+        }
+        if (content != '' && content.length > maxlen) {
+            content = content.substring(0, maxlen) + "...";
+        }
+        return content;
+    }
+</script>

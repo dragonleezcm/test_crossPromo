@@ -1,0 +1,94 @@
+<form action="" method="post" role="form">
+
+   <button id="addAttachment" class="btn btn-default">Add New Content</button>
+    <a id="saveAttachment" onclick="javascript:ApplicationUtils.saveNewContentListener();" class="btn btn-default">Save New Contents</a>
+    <input type="hidden" value="<%=application.id%>" id="applicationId">
+    <h4>New Content</h4>
+    <div><span style="font-size:9pt;">Note: 'Save New Contents' Button only save 'add new Content' createed New Content,
+      <br> Existed New Content Only can be updated by it's own 'Update' Button</span></div>
+    <%
+
+    if(applicationAttachments){
+    for(var i=0; i<applicationAttachments.length; i++){
+    var index=i+1;
+    var attachment=applicationAttachments[i];
+    %>
+    <div id="existAttachmentRow<%=index%>" class="media more_little_height_bottom more_height_top">
+        <div style="height:35px;padding-top:5px">
+            <input type="hidden" id="existAttachmentId" class="existAttachmentId" value="<%=attachment.id%>"/>
+
+            Media Type: &nbsp;&nbsp;&nbsp;
+            <% if(attachment.get('newContentType') == "text"||attachment.get('newContentType') == null||attachment.get('newContentType') == ''){ %> Text <% } %>
+            <% if(attachment.get('newContentType') == "image"){ %> Image <% } %>
+            <% if(attachment.get('newContentType') == "video"){ %> Video <% } %>
+            <a style="display:inline;height:30px;position:relative;margin-left: 180px;"   class="btn btn-default" href="javascript:ApplicationUtils.deleteExistAttachment(<%=index%>)">Remove</a>
+            <a style="display:inline;height:30px;position:relative;margin-left: 27px;"   class="btn btn-default" href="javascript:ApplicationUtils.updateExistAttachment(<%=index%>)">Update</a>
+
+        </div>
+        <div class="form-group">
+            <label >Tag <span style="color:#ff4348;">(please use , between tags eg: tag1,tag2,tag3)</span></label>
+            <input type="input" class="form-control split_input newContentTag" maxlength="200" value=" <%= attachment.get('newContentTag') %>"/>
+        </div>
+        <% if (attachment.get('newContentType')=='text'){%>
+        <div style="display:block;">
+            <div class="form-group more_height">
+                <div class="form-group">
+                    <label>New content text: </label>
+                    <input type="input" class="form-control newContentText" maxlength="400" name="attachment[newContentText]" id="newContentText" value="<%=attachment.get('newContentText')%>" />
+                </div>
+            </div>
+            <hr>
+        </div>
+
+        <%}else{%>
+        <div style="display:block;">
+            <div class="form-group">
+                <div class="inline float_left" style="width:270px;">
+                    <label>iPhone:</label>
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="640 x 532">
+                        <% if(attachment.get('newContentType') == "video" && attachment.get("newContentMediaURLiPhone")){  %>
+                        <video id="videoContent" class='media-video' style="display:block;width:150px;height:150px" src="<%= attachment.get('newContentMediaURLiPhone').url()%>"></video>
+
+                        <%} else if(attachment.get('newContentType') == "image" && attachment.get("newContentMediaURLiPhone")){ %>
+                        <img id="imageContent" class='clickable_image' style="display:block;width:230px;height:150px" src="<%= attachment.get('newContentMediaURLiPhone').url()%>" />
+
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="inline float_left">
+                    <label>iPad:</label>
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="640 x 532">
+                        <% if(attachment.get('newContentType') == "video" && attachment.get("newContentMediaURLiPad")){  %>
+                        <video id="iPadVideoContent" class='media-video' style="display:block;width:150px;height:150px" src="<%= attachment.get('newContentMediaURLiPad').url()%>"></video>
+
+                        <%} else if(attachment.get('newContentType') == "image" && attachment.get("newContentMediaURLiPad")){ %>
+                        <img id="iPadImageContent" class='clickable_image' style="display:block;width:230px;height:150px"  src="<%= attachment.get('newContentMediaURLiPad').url()%>" />
+
+                        <% } %>
+                    </div>
+                </div>
+                <div class="clean_style"></div>
+                <div class="">
+                    <label>Link To URL: </label>
+                    <input type="input"  class="form-control linkToUrl" maxlength="400" value="<%=attachment.get('linkToUrl')%>" />
+                </div>
+                <div class="clean_style"></div><hr>
+            </div>
+        </div>
+
+        <%}%>
+    </div>
+    <%
+    }
+    }
+    %>
+  <div id="attachmentList" class="more_height_top">
+
+  </div>
+
+
+
+</form>

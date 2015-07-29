@@ -1,0 +1,39 @@
+<form action="" method="post" role="form">
+    <div class="form-group">
+        <label for="user-name">User's Email</label>
+        <div>
+        <input type="input" class="form-control inline" name="username" id="user-name" placeholder="Enter User's Email"><font class="red_inline"> * </font>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="pwd">Password</label>
+        <div>
+        <input type="password" class="form-control inline" name="password" id="pwd" placeholder="Enter user password"><font class="red_inline"> * </font>
+        </div>
+    </div>                        
+    <div class="form-group">
+        <label>Role</label>                           
+        <select name='role'>     
+            <%
+            if(roles!=null){
+            for(var i=0; i< roles.length; i++){    
+            if(roles[i].get('type') != 'administrator'){ 
+            %>
+            <option value = "<%=roles[i].id%>"><%=roles[i].get('name')%></option>    
+            <% 
+            }
+            }
+            } %>                                               
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="first-name">First Name</label>
+        <input type="input" class="form-control promotion-data" name="firstname" id="first-name" placeholder="Enter user first name">
+    </div>  
+    <div class="form-group">
+        <label for="last-name">Last Name</label>
+        <input type="input" class="form-control promotion-data" name="lastname" id="last-name" placeholder="Enter user last name">
+    </div>                                                                    
+    <input type="hidden" class="form-control promotion-data" id="companyId" value="<%=companyId%>">
+    <button id="submit" type="submit" class="btn btn-primary">Save</button>
+</form>

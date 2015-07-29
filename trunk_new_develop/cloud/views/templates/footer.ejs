@@ -1,0 +1,26 @@
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+<script>
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+    function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+    e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+    e.src='//www.google-analytics.com/analytics.js';
+    r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-XXXXX-X');ga('send','pageview');
+</script>
+<script src="/scripts/utils.js"></script>
+<script src="/scripts/company_utils.js"></script>
+<script src="/scripts/morefunapp_utils.js"></script>
+<script src="/scripts/user_utils.js"></script>
+<script>
+    var Promotion = Parse.Object.extend("Promotion");
+    var Application = Parse.Object.extend("Application");
+    var ApplicationAttachment = Parse.Object.extend("ApplicationAttachment");
+    var PromotionBoard = Parse.Object.extend("PromotionBoard");
+    var PurchaseAttachment = Parse.Object.extend("PurchaseAttachment");
+    var Company = Parse.Object.extend("Company");
+    var MorefunApp = Parse.Object.extend("MorefunApp");
+    var PurchaseItem = Parse.Object.extend("PurchaseItem");
+    $(function(){
+        CrossPromoUtils.addSelectAllListener('#select-all','.check');
+    })
+</script>

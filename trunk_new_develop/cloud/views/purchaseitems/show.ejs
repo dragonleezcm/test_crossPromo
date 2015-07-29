@@ -1,0 +1,112 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>CrossPromo System</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width">
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<link rel="stylesheet" href="/styles/43364958.main.css">
+<script src="/scripts/vendor/f7f27360.modernizr.js"></script>
+<script src="/scripts/Calendar.js"></script>
+<% include ../templates/header.ejs %>
+<% include ../templates/img_load_component.ejs %>
+ 
+</head>
+<body>
+    <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div class="container">
+        <!-- added the navigation menu -->
+        <% include ../templates/nav.ejs %>
+        <div class="content row big_form_width">
+            <div class="big_form_layout">
+                <% include form_edit.ejs %>
+            </div>
+        </div>
+    </div>
+    <% include ../templates/footer.ejs %>
+    <script>
+        <% if(purchaseitem.get('featured') == "false"){ %>
+            $('.featureArea').hide();
+        <% }else{%>
+            $('.featureArea').show();
+        <%} if(purchaseitem.get('isShowInAdPage') == "false"||purchaseitem.get('isShowInAdPage') ==null){
+                     %>
+            $('.showInAdPageArea').hide();
+        <% }else{%>
+            $('.showInAdPageArea').show();
+        <%}%>
+             
+ 
+        CrossPromoUtils.addHideShowListener(".showInAdPage",".showInAdPageArea");
+        CrossPromoUtils.addHideShowListener(".featured",".featureArea");
+        PurchaseItemUtils.addAttachmentListener();
+
+        CrossPromoUtils.scaleOriginalImage('media-image');
+        CrossPromoUtils.scaleOriginalImage('media-video');
+        CrossPromoUtils.scaleOriginalImage('feature-media-image');
+         
+        CrossPromoUtils.showOriginalImage();
+        CrossPromoUtils.scaleOriginalImage('imageFile');
+ 
+ 
+        $(function(){
+            var query = new Parse.Query(PurchaseItem);
+            query.get("<%= purchaseitem.id %>", {
+                success: function(currentPurchaseitem){
+                      $('#activate').click(function(e){
+                            e.preventDefault();
+                            currentPurchaseitem.set('active', !currentPurchaseitem.get('active'));
+                            currentPurchaseitem.save(null, {
+                                success: function(o) {
+                                    if(o.get('active')){
+                                        alert("In-App Purchase Activated.");
+                                    }
+                                    else {
+                                        alert("In-App Purchase Deactivated.");
+                                    }
+                                    //In-App Purchase is related to the app not the company, app is related to company
+                                    window.location = "/applications/<%=companyId %>/<%=appid%>";
+                            },
+                            error : function(o, error) {
+                                console.log(error);
+                            }
+                        });
+                    });
+                      $('#online').click(function(e){
+                            e.preventDefault();
+                            currentPurchaseitem.set('isOnline', !currentPurchaseitem.get('isOnline'));
+                            currentPurchaseitem.save(null, {
+                                success: function(o) {
+                                    if(o.get('isOnline')){
+                                        alert("In-App Purchase is Online now.");
+                                    }
+                                    else {
+                                        alert("In-App Purchase is Offline to Preview now");
+                                    }
+                                    window.location = "/applications/<%=companyId %>/<%=appid%>";
+                                },
+                                error: function(o, error) {
+                                    console.log(error);
+                                }
+                            });
+                        });
+                    $('#submit').click(MoreFunAppUtils.savePurchaseItemHandler(currentPurchaseitem));
+                },
+                error : function(obj, error) {
+                    console.log(error);
+                    window.location = "/";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

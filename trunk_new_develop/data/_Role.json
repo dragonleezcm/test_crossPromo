@@ -1,0 +1,26 @@
+{ "results": [
+{
+  "name": "Administrator",
+  "type": "administrator",
+  "description": "administrator can configure company information that includes user, application and promotion.",
+  "createdAt": "2014-01-17T03:18:58.841Z",
+  "updatedAt": "2014-01-19T10:39:28.281Z",
+  "objectId": "CwXkdXoGfh"
+},
+{
+  "name": "Company Administrator",
+  "type": "company_administrator",
+  "description": "company administrator can only configure his/her own company information as user, application and promotion.",
+  "createdAt": "2014-01-17T03:18:58.860Z",
+  "updatedAt": "2014-01-19T10:34:25.937Z",
+  "objectId": "CvmFhTNLD6"
+},
+{
+  "name": "Normal User",
+  "type": "normal_user",
+  "description": "normal user can configure his/her own company application and promotion.",
+  "createdAt": "2014-01-17T03:18:58.878Z",
+  "updatedAt": "2014-01-17T15:40:28.325Z",
+  "objectId": "YRgWorcgLO"
+}
+] }
