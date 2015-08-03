@@ -31,6 +31,17 @@
         <% include ../templates/footer.ejs %>       
         <script>
         $(function(){
+
+            <% if(mfApplication.get("coverImage")){ %>
+                $("#coverImage").removeClass("notNull")
+            <%}%>
+
+            <% if(mfApplication.get("appStoreImageVideo")){ %>
+                $("#appStoreImageVideo").removeClass("notNull");
+            <%}%>
+
+
+
              <% if(mfApplication.get('ioas') == "false"){ %> 
                 $('.asl').hide();
                 $('.linkArea').show();
@@ -73,7 +84,9 @@
                 success: function(currentmfApp){
                     $('#activate').click(function(e){
                         e.preventDefault();
-                        currentmfApp.set('active', !currentmfApp.get('active'));
+                        var active = !currentmfApp.get('active');
+                        currentmfApp.set('active', active);
+                        currentmfApp.set('order', active ? <%=maxCount%> : -1);
                         currentmfApp.save(null, {
                             success: function(o) {
                                 if(o.get('active')){

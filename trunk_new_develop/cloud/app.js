@@ -242,6 +242,7 @@ app.get('/morefunapps_cmpy/:companyId', function(req, res) {
     var company=new Company();
     company.id= req.params.companyId;
     query.equalTo("company", company);
+    query.ascending("order");
     query.find({
         success: function(apps) {
             res.render('morefunapps/list', { 'morefunapps': apps,'companyId':company.id,'reqPath':req.path,'userId':'' });
@@ -279,29 +280,39 @@ app.get('/morefunapps/:companyId/:id', function(req, res){
     company.id= req.params.companyId;
 
     var mfApp;
-    moreFunQuery.get(req.params.id).then(function(morefunapp){
-        mfApp = morefunapp;
-        moreFunBoardQuery.equalTo("morefunapp", morefunapp);
-        return moreFunBoardQuery.find();
-    }).then(function(moreFunBoards){
-        var apps = [];
-        for(var i = 0; i < moreFunBoards.length; i++){
-            apps.push(moreFunBoards[i].get('application'));
-        }
-        applicationQuery.equalTo("company", company);
-        applicationQuery.find({
-            success: function(results) {
-                var selectedApps = []
-                for(var i = 0; i < apps.length; i++){ selectedApps.push(apps[i].id); }
-                res.render('morefunapps/show', { 'applications': results, 'mfApplication': mfApp, 'apps': selectedApps, 'companyId':company.id,'reqPath':req.path,'userId':'' });
-            },
-            error: function(error) {
+    var max= 0;
+    var id=req.params.companyId;
+    Parse.Cloud.run("getMaxMoreFunAppCount", { companyId:id }, {
+        success : function(s) {
+            max=s;
+            moreFunQuery.get(req.params.id).then(function(morefunapp){
+                mfApp = morefunapp;
+                moreFunBoardQuery.equalTo("morefunapp", morefunapp);
+                return moreFunBoardQuery.find();
+            }).then(function(moreFunBoards){
+                var apps = [];
+                for(var i = 0; i < moreFunBoards.length; i++){
+                    apps.push(moreFunBoards[i].get('application'));
+                }
+                applicationQuery.equalTo("company", company);
+                applicationQuery.find({
+                    success: function(results) {
+                        var selectedApps = []
+                        for(var i = 0; i < apps.length; i++){ selectedApps.push(apps[i].id); }
+                        res.render('morefunapps/show', { 'applications': results, 'mfApplication': mfApp, 'apps': selectedApps, 'companyId':company.id,'reqPath':req.path,'userId':'','maxCount' : max });
+                    },
+                    error: function(error) {
+                        res.write('error');
+                    }
+                })
+            }, function(error){
+                console.log("Error: " + error.code + " " + error.message);
                 res.write('error');
-            }
-        })
-    }, function(error){
-        console.log("Error: " + error.code + " " + error.message);
-        res.write('error');
+            });
+        },
+        error : function(error) {
+            console.log(error);
+        }
     });
 });
 

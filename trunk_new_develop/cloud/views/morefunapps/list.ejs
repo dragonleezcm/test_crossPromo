@@ -13,12 +13,34 @@
         <link rel="stylesheet" href="/styles/43364958.main.css">
         <script src="/scripts/vendor/f7f27360.modernizr.js"></script>
         <% include ../templates/header.ejs %>
+        <script src="/scripts/jquery-ui.js"></script>
+
         <script>
         $(function(){
             var i=CrossPromoUtils.changeOddBgColor('.active_bak_color');
             var j=CrossPromoUtils.changeOddBgColor('.inactive_bak_color');
             CrossPromoUtils.autoVerticalLineHeight(i,j);
-        });
+            var MorefunApp = Parse.Object.extend("MorefunApp");
+
+            $( ".sortablelist" ).sortable({
+                update:function(event, ui){
+                    var index = 1;
+                    $(".sortablelist a").each(function(){
+                        var moreFunAppId=$(this).attr("id");
+                        var mfa=new MorefunApp();
+                        mfa.id= moreFunAppId;
+                        mfa.set("order",index++);
+                        mfa.save(null, {
+                            success: function(o) {
+                            },
+                            error: function(o, error) {
+                                console.log(error);
+                            }
+                        });
+
+                    })
+                }});
+            });
         </script>
     </head>
     <body>
@@ -31,15 +53,20 @@
             <div class="content row">
              <div class="common_list_layout">
                   <div class="col-lg-6 more_little_height_bottom" style="width:730px;"><h2 class="inline">More Fun Apps</h2>    <a type="button" href="/morefunapps/new/<%=companyId%>" class="btn btn-primary" style="float:right;">Create New App</a> </div>
+                  <div class="col-lg-6 " style="width:730px;"><label>(Drag Acive list items to Sort)</label> </div>
 
                   <div class="clean_style">
                     <div class="list_split_no_margin">
                     <h4 class="more_little_height_bottom">Active</h4>
-                    <% for(var i = 0; i < morefunapps.length; i++){
-                        if(morefunapps[i].get('active')){ %>
-                       <div class="active_bak_color split_link" > <a href="/morefunapps/<%=companyId%>/<%= morefunapps[i].id %>"><%= morefunapps[i].get('name') %></a></div>
-                    <% }
-                    } %>
+                    <div class="sortablelist ">
+                        <% for(var i = 0; i < morefunapps.length; i++){
+                            if(morefunapps[i].get('active')){
+                        %>
+                           <div class="active_bak_color split_link" > <a id="<%= morefunapps[i].id %>" href="/morefunapps/<%=companyId%>/<%= morefunapps[i].id %>"><%= morefunapps[i].get('name') %></a></div>
+                        <% }
+                        }
+                        %>
+                    </div>
                   </div>
                 <div class="vertical_line"></div>
                   <div class="list_split">

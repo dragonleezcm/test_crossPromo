@@ -2,6 +2,7 @@ require('cloud/app.js');
 var Application = Parse.Object.extend("Application");
 var ApplicationAttachment = Parse.Object.extend("ApplicationAttachment");
 var Promotion = Parse.Object.extend("Promotion");
+var Company = Parse.Object.extend("Company");
 var PromotionBoard = Parse.Object.extend("PromotionBoard");
 var PurchaseAttachment = Parse.Object.extend("PurchaseAttachment");
 var MorefunApp = Parse.Object.extend("MorefunApp");
@@ -89,6 +90,30 @@ Parse.Cloud.define("setPromotionToApplications", function(req, res){
         }
     })
 });
+//Get max count
+Parse.Cloud.define("getMaxMoreFunAppCount", function(req, res){
+    var company =new Company();
+    var morefunappQuery = new Parse.Query("MorefunApp");
+    company.id=req.params.companyId;
+    morefunappQuery.equalTo("company", company);
+    morefunappQuery.find({
+        success: function(pb){
+            //Destroy all old moreFunAppBoards with promotion
+            var count=1;
+            for(var i = 0; i < pb.length; i++){
+                if(pb[i].get("active")){
+                    count++;
+                }
+            }
+            debugger;
+            res.success(count);
+        },
+        error: function(error){
+            res.error("Error, see parse log for message");
+        }
+    })
+});
+
 //Addsd one more fun app to multiple applications
 Parse.Cloud.define("setMorefunAppToApplications", function(req, res){
 	var morefunapp = new MorefunApp();

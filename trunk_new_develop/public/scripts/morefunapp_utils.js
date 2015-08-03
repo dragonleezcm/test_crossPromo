@@ -25,6 +25,53 @@ MoreFunAppUtils = {
 		});
 		return result;
 	},
+	validateUploadImageExt :function ( errMsg){
+		var result = true;
+		// check the image  extension
+		$('.uploadImageFile').each(function() {
+			var input = $(this)[0];
+			if (input.files.length > 0) {
+				var name = input.value.replace(/^.*[\\\/]/, '').replace('~', '-');
+				var extname = name.substring(name.lastIndexOf(".") + 1, name.length);
+				extname = extname.toLowerCase();
+				if (extname != "bmp" && extname != "jpg" && extname != "gif" && extname != "png") {
+					errMsg.push("Please upload the image and only bmp / jpg / gif / png allowed.");
+					result =false;
+					return false;
+				}
+			}
+		});
+		return result;
+	},
+	validateUploadVideoExt :function (errMsg){
+		var result = true;
+		// check the image  extension
+		$('.uploadVideoFile').each(function() {
+			var input = $(this)[0];
+			if (input.files.length > 0) {
+				var name = input.value.replace(/^.*[\\\/]/, '').replace('~', '-');
+				var extname = name.substring(name.lastIndexOf(".") + 1, name.length);
+				extname = extname.toLowerCase();
+				if (extname != "mp4") {
+					errMsg.push("Please upload the video and only mp4 allowed.");
+					result =false;
+					return false;
+				}
+			}
+		});
+		return result;
+	},
+	validateNotEmptyFiled :function(errMsg){
+		var result =true;
+		$('.notNull').each(function() {
+			if ($(this).val()=="") {
+				errMsg.push("Please fill up all the fields marked in red.");
+				result=false;
+				return false;
+			}
+		});
+		return result;
+	},
 	commonImageVideosUpload :function (promises, files, errMsg){
 		var result = true;
 	 	var orgMediaType = $('#orgMediaType').val();
@@ -57,12 +104,28 @@ MoreFunAppUtils = {
 				}
 			}
 		});
-		//push files to array
+		if(!result) return result;
+
+		//validate file upload
 		var fileCount = 0;
-		$('input[type=file]').each(function() {
+		$('input.recommandFile').each(function() {
 			var input = $(this)[0];
 			if (input.files.length > 0) {
 				fileCount++;
+			}
+		});
+		// avoid change the media_type but did not upload certain media file
+		// when edit the MFA
+		if (orgMediaType != imgVideo && fileCount <=0) {
+			errMsg.push("Please upload the right images or videos!");
+			result = false;
+			return false;
+		}
+
+		//push files to array
+		$('input[type = file]').each(function() {
+			var input = $(this)[0];
+			if (input.files.length > 0) {
 				var file = input.files[0];
 				var name = input.value.replace(/^.*[\\\/]/, '').replace('~', '-');
 				var parseFile = new Parse.File(name, file);
@@ -73,15 +136,6 @@ MoreFunAppUtils = {
 				});
 			}
 		});
-
-		// avoid change the media_type but did not upload certain media file
-		// when edit the MFA
-		if (orgMediaType != imgVideo && fileCount <=0) {
-			errMsg.push("Please upload the right images or videos!");
-			result = false;
-			return false;
-		}
-
 		return result;
 	},
 	handleImagesVideos : function(promises, files, errMsg) {
@@ -245,7 +299,22 @@ MoreFunAppUtils = {
 			var files = [];
 			var errMsg =[];
 
-			// Upload all files
+			// validate banner image ext
+			if (!MoreFunAppUtils.validateNotEmptyFiled( errMsg)) {
+				alert(errMsg[0]);
+				return;
+			}
+
+	    	// validate banner image ext
+			if (!MoreFunAppUtils.validateUploadImageExt( errMsg)) {
+				alert(errMsg[0]);
+				return;
+			}
+			// validate video image ext
+			if (!MoreFunAppUtils.validateUploadVideoExt( errMsg)) {
+				alert(errMsg[0]);
+				return;
+			}
 			if (!MoreFunAppUtils.commonImageVideosUpload(promises, files, errMsg)) {
 				alert(errMsg[0]);
 				return;

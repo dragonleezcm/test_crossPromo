@@ -9,12 +9,12 @@
         <% } %>
     </div>
     <div class="clean_style">
-        <div id="left_split" class="add_edit_split_no_margin" style="margin-bottom:-350px;padding-bottom:350px">
+        <div id="left_split" class="add_edit_split_no_margin" style="margin-bottom:-200px;padding-bottom:200px">
             <div class="more_little_height_both">
                 <h4 class="inline ">More Fun App Information</h4>
             </div>
             <div class="form-group">
-                <label for="app-name">Name of App to include under More fun apps</label>
+                <label for="mfapp-name">Name of App to include under More fun apps</label>
                 <div>
                     <input type="input" class="form-control inline split_input" name="mfApplication[name]" id="mfapp-name" value="<%= mfApplication.get('name') %>"><font class="red_inline"> * </font>
                 </div>
@@ -24,20 +24,20 @@
                     name="mfApplication[ioas]" value="false" type="radio" <% if(mfApplication.get('ioas') == "false"){ %> checked <% } %>> No
             </div>
             <div class="asl">
-                <label for="app-link">App Store Link</label> <input type="input" class="form-control" name="mfApplication[appStoreLink]" id="app-store-link" value="<%= mfApplication.get('appStoreLink') %>">
+                <label for="app-store-link">App Store Link</label> <input type="input" class="form-control" name="mfApplication[appStoreLink]" id="app-store-link" value="<%= mfApplication.get('appStoreLink') %>">
             </div>
             <div class="linkArea">
                 <label for="outlink">Outlink</label> <input type="input" class="form-control split_input" name="mfApplication[outlink]" id="outlink" value="<%= mfApplication.get('outlink') %>">
             </div>
-             
+
             <h4 class="margin_bwt_parts_vertical">Platform</h4>
             <div>
-                <input name="mfApplication[platForm]" value="iphone" type="radio"  <% if(mfApplication.get('platForm') == "iphone"){ %> checked <% } %> > iPhone 
+                <input name="mfApplication[platForm]" value="iphone" type="radio"  <% if(mfApplication.get('platForm') == "iphone"){ %> checked <% } %> > iPhone
                 <input  name="mfApplication[platForm]" value="ipad" type="radio"  <% if(mfApplication.get('platForm') == "ipad"){ %> checked <% } %>> iPad <input
                      name="mfApplication[platForm]" value="universal" type="radio"  <% if(mfApplication.get('platForm') == "universal"){ %> checked <% } %>> Universal
             </div>
-             
-             
+
+
             <input type="hidden" id="token" value="edit" readonly />
             <div>
                 <input type="text" id="hideCompanyId" value="" readonly />
@@ -56,49 +56,55 @@
                 </div>
                 <% } %>
             </div>
- 
+
         </div>
         <div class="vertical_line_add_edit"></div>
         <!-- right part -->
         <div class="add_edit_split">
-            <!-- Image/Video part -->
-            <div class="more_little_height_both">
-                <h4 class="inline">Images/Videos</h4>
-                    <font class="red_inline"> * </font> Media Type <input class="mediaClass" name="mfApplication[mediaType]" value="image" type="radio" <% if(mfApplication.get('mediaType') == "image"){ %> checked
-                        <% } %>> Image <input class="mediaClass" name="mfApplication[mediaType]" value="video" type="radio" <% if(mfApplication.get('mediaType') == "video"){ %> checked <% } %>> Video<h4>(if not pulling icon / video from App Store)</h4> <br> 
-                  <input type="hidden" id="orgMediaType" value="<%=mfApplication.get('mediaType') %>" readonly /> 
+            <div class="form-group col-md-12">
+                <h4 class="more_little_height_both">Icon (if not pulling icon from App Store)</h4>
+                <label for="shortcut">Size: (768 x 768)</label>
+                <input type="file" class="uploadImageFile" name="shortcut" id="shortcut">
+                <div class="imageFile" widthheight="768 x 768">
+                    <% if(mfApplication.get("shortcut")){ %>
+                    <img class="clickable_image" src="<%= mfApplication.get("shortcut").url()%>" />
+                    <% } %>
+                </div>
             </div>
 
 
+            <!-- Image/Video part -->
+            <br>
             <div class="form-group">
-                <label for="iphone-portrait">Size: (768 x 768)</label>
-                <input type="file" class="recommandFile file_width" name="shortcut" id="shortcut">
-                    
-                  <% if(mfApplication.get('mediaType') == "video"){ %>              
-                        <div class="imageFile" widthheight="768 x 768">
-                            <% if(mfApplication.get("shortcut")){ %>
-                            <video controls class='media-video' widthheight="640 x 386" src="<%= mfApplication.get("shortcut").url()%>"></video> 
-                            <% } %>
-                        </div>  
- 
-                  <%} else {%>
-                        <div class="imageFile" widthheight="768 x 768">
-                            <% if(mfApplication.get("shortcut")){ %>
-                            <img class="clickable_image" src="<%= mfApplication.get("shortcut").url()%>" />
-                            <% } %>
-                        </div>
+                <h5 class="col-md-6">Cover Image<font class="red_inline"> * </font></h5> <h5 class="col-md-6">Video<font class="red_inline"> * </font></h5>
+            </div>
+            <hr>
+            <div class="form-group ">
+                <div class="col-md-6">
+                    <label for="coverImage">Cover (640 x 386)</label>
+                    <input type="file" class="notNull uploadImageFile file_width" name="coverImage" id="coverImage">
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="640 x 386">
+                        <% if(mfApplication.get("coverImage")){ %>
+                        <img class="clickable_image" src="<%= mfApplication.get("coverImage").url()%>" />
+                        <% } %>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="appStoreImageVideo">App Video (580 x 640)</label>
+                    <input type="file" class="notNull uploadVideoFile file_width" name="appStoreImageVideo" id="appStoreImageVideo">
+                    <!-- this is a div to show the preview image - do not delete it -->
+                    <div class="imageFile" widthheight="580 x 640">
+                        <% if(mfApplication.get("appStoreImageVideo")){ %>
+                        <video id="videoContent" class='media-video' style="display:block;width:150px;height:150px" src="<%= mfApplication.get("appStoreImageVideo").url()%>"></video>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
 
-                  <%}%>
-
-            </div> 
-
-
-
-
-
-         <br>  
+         <br>
             <!-- app Section part -->
-            <div class="form-group">
+            <div class="form-group col-md-12 clean_style">
                 <h4>App Section</h4>
                 <div class="form-group">
                     <input class="appSectionType" name="mfApplication[appSectionType]" value="IDEOko" type="radio" <% if(mfApplication.get('appSectionType') == "IDEOko"){ %> checked
@@ -109,32 +115,29 @@
             <br>
                  <div id="bannerImageSection" class="form-group">
                         <h4>Banner Image</h4>
-                        <label for="bannerImage">Size: (1334 x 750)</label> <input type="file" class="recommandFile  file_width" name="bannerImage" id="bannerImage">
+                        <label for="bannerImage">Size: (1334 x 750)</label> <input type="file" class="uploadImageFile file_width" name="bannerImage" id="bannerImage">
                         <!-- this is a div to show the preview image - do not delete it -->
-                        <% if(mfApplication.get("shortcut")){ %>
-                            <img class="clickable_image" src="<%= mfApplication.get("bannerImage").url()%>" />
-                        <% } %>
+                         <div class="imageFile" widthheight="640 x 750">
+                             <% if(mfApplication.get("bannerImage")){ %>
+                             <img class="clickable_image" src="<%= mfApplication.get("bannerImage").url()%>" />
+                             <% } %>
+                         </div>
                 </div>
- 
-            </div>
-         <br>  
 
-          <div class="form-group">
+            </div>
+         <br>
+
+          <div class="form-group col-md-12">
                 <h4>Flags</h4>
                  <input class="mfFlag" name="mfApplication[mfFlag]" value="NEW" type="radio" <% if(mfApplication.get('mfFlag') == "NEW"){ %> checked
                         <% } %>> New <input class="mfFlag lt_mg_left"  name="mfApplication[mfFlag]" value="SALE" type="radio" <% if(mfApplication.get('mfFlag') == "SALE"){ %> checked
                         <% } %>> Sale<input class="mfFlag lt_mg_left"  name="mfApplication[mfFlag]" value="NONE" type="radio" <% if(mfApplication.get('mfFlag') == "NONE"){ %> checked
                         <% } %>> No Flag
-                 
+
          </div>
 
-
-
-
-
-
         </div>
- 
+
     </div>
     <div class="clean_style more_height"></div>
     <button id="submit" class="btn btn-default edit_margin_middle">Save Changes</button>
