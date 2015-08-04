@@ -33,20 +33,44 @@
         </div>
         <% } %>
     </div>
-    <div class="form-group more_height_top">
-        <h5>Include the following more fun app in this app:</h5>
-           <div class="checkbox">
-            <label>
-                <input class="mfCheck" id="select-all-mfa" type="checkbox">  <span class="black_font">Select All</span>
-            </label>
+
+
+
+
+    <div class="clean_style">
+        <div style="width:350px;float:left;">
+            <h5>Include the following more fun app in this app:</h5>
+            <div class="checkbox">
+                <label>
+                    <input class="mfCheck" id="select-all-mfa" type="checkbox">  <span class="black_font">Select All</span>
+                </label>
+            </div>
+            <% for(var i=0; i< morefunapps.length; i++){ %>
+            <div class="checkbox">
+                <label>
+                    <input class="mfCheck" name="morefunapps[]" value="<%= morefunapps[i].id %>" type="checkbox"> <span class="black_font"> <%= morefunapps[i].get('name') %></span>
+                </label>
+            </div>
+            <% } %>
         </div>
-        <% for(var i=0; i< morefunapps.length; i++){ %>
-        <div class="checkbox">
-            <label>
-               <input class="mfCheck" name="morefunapps[]" value="<%= morefunapps[i].id %>" type="checkbox"> <span class="black_font"> <%= morefunapps[i].get('name') %></span>
-            </label>
+        <div class="vertical_line"></div>
+        <div class="list_split">
+            <h5>Featured app for More Apps button on Home Screen:</h5>
+            <div class="checkbox" style="visibility: hidden;">
+                <label>
+                    <input class="mfCheck" type="checkbox">  <span class="black_font">Select All</span>
+                </label>
+            </div>
+            <% for(var i=0; i< morefunapps.length; i++){ %>
+            <div class="radio-button">
+                <label>
+                    <input name="mfaHomeScreen" value="<%= morefunapps[i].id %>" type="radio"> <span class="black_font"> <%= morefunapps[i].get('name') %></span>
+                </label>
+            </div>
+            <% } %>
+
         </div>
-        <% } %>
     </div>
+
 
 </form>

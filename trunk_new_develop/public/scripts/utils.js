@@ -37,7 +37,11 @@ CrossPromoUtils = {
             company.id = companyId;
             application.set('company', company);
         }
-
+        $("input:radio[name='mfaHomeScreen']:checked").each(function() {
+           var mfa=new MorefunApp();
+            mfa.id= $(this).val();
+            application.set('mfaHomeScreen',mfa);
+        });
         // After save, fill in the join table
         application.save(null, {
             success : function(o) {
