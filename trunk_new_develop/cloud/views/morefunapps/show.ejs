@@ -52,9 +52,6 @@
              $('.linkArea').hide();
              <%}%>
 
-    <% if(mfApplication.get('appSectionType')=="MWOF"){ %>
-        $('#bannerImageSection').hide();
-    <%}%>
 
 
              $('.ioas').click(function(e) {
@@ -68,14 +65,7 @@
                 }
             });
 
-            $('.appSectionType').click(function(e) {
-                if ($(this).val()=="IDEOko") {
-                    $('#bannerImageSection').show();
-                } else { 
-                    $('#bannerImageSection').hide();
-                }
-            });
-              
+
             CrossPromoUtils.showOriginalImage();
             CrossPromoUtils.scaleOriginalImage('imageFile');
  
@@ -127,6 +117,28 @@
                         });
                     });
                     $('#submit').click(MoreFunAppUtils.saveMoreFunAppHandler(currentmfApp));
+
+                    $('#deleteCover').click(function(e) {
+                        e.preventDefault();
+                        if(confirm("Are you sure you want to delete this Cover & Video?")){
+                            currentmfApp.set('coverImage', null);
+                            currentmfApp.set('appStoreImageVideo', null);
+                            currentmfApp.save(null, {
+                                success: function(o) {
+
+                                    alert("Cover & Video are Delete !");
+                                    //go back to list page
+                                    // window.location = "/morefunapps_cmpy/"+companyid;
+                                    //go back to edit page
+                                    window.location = "/morefunapps/"+companyid+"/"+o.id;
+                                },
+                                error: function(o, error) {
+                                    console.log(error);
+                                }
+                            });
+                        }
+                    });
+
                 },
                 error: function(obj,error){
                     console.log(error);
